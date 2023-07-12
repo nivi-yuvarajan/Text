@@ -1,0 +1,111 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class Query {
+    public static void selectQuery()throws ClassNotFoundException, SQLException{
+        String url="jdbc:mysql://localhost:3306/shop";
+        String username="root";
+        String password="mysql123";
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con= DriverManager.getConnection(url,username,password);
+        Statement s=con.createStatement();
+        ResultSet rs=s.executeQuery("select * from branch");
+
+        while(rs.next()){
+            System.out.println(rs.getInt("b_id")+" "+rs.getString(2)+" "+rs.getString(3));
+        }
+
+
+    }
+    public static void insertQuery(int id,String branch, String address)throws ClassNotFoundException, SQLException {
+        String url = "jdbc:mysql://localhost:3306/shop";
+        String username = "root";
+        String password = "mysql123";
+        Class.forName("com.mysql.cj.jdbc.Driver");//driver classloading
+        Connection con = DriverManager.getConnection(url, username, password);//connection object creation
+//        Statement s=con.createStatement();
+//        int row= s.executeUpdate("insert into branch values("+id+",'"+branch+"','"+address+"');");
+        PreparedStatement ps = con.prepareStatement("insert into branch values(?,?,?)");
+        ps.setInt(1, id);
+        ps.setString(2, branch);
+        ps.setString(3, address);
+
+        int row = ps.executeUpdate();
+        if (row > 0) {
+            System.out.println("values inserted successfully");
+        } else {
+            System.out.println("values not inserted");
+        }
+    }
+        public static void updateBranchName(int id,String branch)throws ClassNotFoundException, SQLException {
+            String url = "jdbc:mysql://localhost:3306/shop";
+            String username = "root";
+            String password = "mysql123";
+            Class.forName("com.mysql.cj.jdbc.Driver");//driver classloading
+            Connection con = DriverManager.getConnection(url, username, password);//connection object creation
+//        Statement s=con.createStatement();
+//        int row= s.executeUpdate("insert into branch values("+id+",'"+branch+"','"+address+"');");
+            PreparedStatement ps = con.prepareStatement("update branch set b_name=?  where b_id=?;");
+            ps.setString(1, branch);
+            ps.setInt(2, id);
+            int row = ps.executeUpdate();
+            if (row > 0) {
+                System.out.println("values updated successfully");
+            } else {
+                System.out.println("values not updated");
+            }
+        }
+    public static void delete(int id)throws ClassNotFoundException, SQLException {
+        String url = "jdbc:mysql://localhost:3306/shop";
+        String username = "root";
+        String password = "mysql123";
+        Class.forName("com.mysql.cj.jdbc.Driver");//driver classloading
+        Connection con = DriverManager.getConnection(url, username, password);//connection object creation
+//        Statement s=con.createStatement();
+//        int row= s.executeUpdate("insert into branch values("+id+",'"+branch+"','"+address+"');");
+        PreparedStatement ps = con.prepareStatement("delete from branch where b_id=?");
+        ps.setInt(1, id);
+        int row = ps.executeUpdate();
+        if (row > 0) {
+            System.out.println("values deleted successfully");
+        } else {
+            System.out.println("values not deleted");
+        }
+    }
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
+//        selectQuery();
+
+
+//        insertQuery(2,"Erode","xyz street");
+
+
+//        Scanner sc=new Scanner(System.in);
+//        System.out.println("enter the id ");
+//        int id=sc.nextInt();
+//        System.out.println("enter the branch name ");
+//        String BranchName= sc.next();
+//        System.out.println("enter the address");
+//        String Address=sc.next();
+//        insertQuery(id,BranchName,Address);
+
+//        selectQuery();
+
+//        Scanner sc=new Scanner(System.in);
+//        System.out.println("enter the id ");
+//        int id=sc.nextInt();
+//        System.out.println("enter the branch name ");
+//        String BranchName= sc.next();
+//        updateBranchName(id,BranchName);
+//        selectQuery();
+
+
+//        Scanner sc=new Scanner(System.in);
+//        System.out.println("enter the id ");
+//        int id=sc.nextInt();
+//        delete(id);
+
+        selectQuery();
+    }
+
+}
